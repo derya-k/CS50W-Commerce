@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+   
+     <h3>Categories</h3>
+
+     <ul>
+        {%  for listing in listings %}
+        {% if listing.status == "active" %}
+        <div class="container">
+            <div class="row row-cols-3">
+        
+                <div class="card " style="margin: 20px;">
+                    <img src="{{ listing.image}}" class="card-img-top" alt="..." ">
+                    
+                    <div class="card-body">
+                    <h5 class="card-title">{{ listing.title}}</h5>
+                    <p class="card-text">{{ listing.description}}</p>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                    <a href="{% url 'product' listing.id %}" class="btn btn-info">View Product</a>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        {% endif %}
+        {% endfor  %}
+    
+     </ul>
+    
+    
+    
+    
+
+{% endblock %}

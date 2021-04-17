@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{%  if message %}
+    {{message}}
+{% endif %}
+<h1 style="margin-inline-start: 100px;">Watchlist</h1>
+
+
+<div class="container">
+    <div class="row row-cols-3">
+        {% for listing in listings %}
+            <div class="card " style="margin: 20px;">
+                <img src="{{ listing.watchlist.image}}" class="card-img-top" alt="..." ">
+                
+                <div class="card-body">
+                <h5 class="card-title">{{ listing.watchlist.title}}</h5>
+                <p class="card-text">{{ listing.watchlist.description}}</p>
+                <form action="{% url 'delete_watchlist' listing.watchlist.id %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-info" type="submit" value="Delete">
+                </form>
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+    
+
+        
+{% endblock %}

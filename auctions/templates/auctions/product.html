@@ -1,0 +1,86 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{%  if watch_message %}
+<div class="alert alert-success" role="alert">
+    {{watch_message}}
+</div>
+{% endif %}
+<h1>Product</h1>
+
+{%  if delete %}
+<form action="{% url 'delete_watchlist' listing.id %}" method="post">
+    {% csrf_token %}
+    <input class="btn btn-outline-info" type="submit" value="Delete from Watchlist">
+</form>
+{% else %}
+<form action="{% url 'add_watchlist' listing.id %}" method="post">
+    {% csrf_token %}
+    <input class="btn btn-outline-info" type="submit" value="Add to Watchlist">
+</form>
+<br>
+{% endif %}
+{%  if delete_message %}
+<div class="alert alert-success" role="alert">
+    {{delete_message}}
+</div>
+{% endif %}
+
+
+<div class="container">
+    <div class="row row-cols-3">
+
+        <div class="card " style="margin: 20px;">
+            <img src="{{ listing.image}}" class="card-img-top" alt="..." ">
+            
+            <div class="card-body">
+            <h5 class="card-title">{{ listing.title}}</h5>
+            <p class="card-text">{{ listing.description}}</p>
+            
+            
+            <div class="card-footer text-muted" style="margin-bottom: 10px;">
+               CurrentPrice :{{ listing.starting_price }}  $ 
+            </div>
+            <br>
+            <form action="{% url 'add_bid' listing.id %}" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <table class="table table-hover">
+                    {{form}}
+                </table>
+                <input type="submit" class="btn btn-outline-info" value="Bid">
+            </form>
+                {%  if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{error_message}}
+                </div>
+                {% endif %}
+                {%  if bid_message %}
+                <div class="alert alert-success" role="alert">
+                    {{bid_message}}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div> 
+        {% if comments %}
+        <h3>Comments:</h3>
+        {% for comment in comments %}
+    <div class="card text-dark bg-light mb-3" style="  margin: 20px; ">
+        <div class="card-header" >Subject : {{ comment.subject}}</div>
+        <div class="card-body">
+        <p class="card-text" >{{comment.entry}}</p>
+        <div class="card-footer text-muted" style="text-align: right;">
+            User : {{comment.user}} 
+        </div>
+        
+        
+        </div>
+    </div>
+        {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_comment' listing.id %}"><button class="btn btn-info">Add Comment</button></a>
+        {% endif %}
+{% endblock %}

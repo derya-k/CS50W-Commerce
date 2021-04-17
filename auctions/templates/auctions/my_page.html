@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{%  if message %}
+    {{message}}
+{% endif %}
+{% block body %}
+    <h1>My Page</h1>
+    <div class="container">
+        <div class="row row-cols-3">
+    {% for listing in listings %}
+            <div class="card " style="margin: 20px;">
+                <img src="{{ listing.image}}" class="card-img-top" alt="..." ">
+                
+                <div class="card-body">
+                <h5 class="card-title">{{ listing.title}}</h5>
+                <p class="card-text">{{ listing.description}}</p>
+                <ul>
+                    <li>{{ listing.status}}</li>
+                    {% if listing.status == "sold" %}
+                    <li>{{ listing.winner}}</li>
+                    {% endif %}
+                </ul>
+                <div class="card-footer text-muted" style="margin-bottom: 10px;">
+                    Highest Bid : {{ listing.starting_price }}  $ 
+                 </div>
+                 <form action="{% url 'sell' listing.id %}" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    {% if listing.status == "active" %}
+                    <input type="submit" class="btn btn-outline-info" value="Sell Product">
+                    {% endif %}
+                </form>
+                </div>
+            </div>
+    {% endfor%}
+        </div>
+    </div>
+      
+
+    
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <link href="{% static 'auctions/bootstrap.min.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <h1 style="color: white; margin-right: 30px ; font-size: 60px;">Auctions</h1>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}"> Active Listings</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'close_listing' %}"> Closed Listings</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                    <li><a class="nav-link" href="{% url 'newlisting' %}">Create New Listing</a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'my_watchlist' %}">My Watchlist</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'my_page' %}">My Page</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                    </li>
+              </ul>
+                </div>
+                
+              </div>
+            </div>
+          </nav>
+        <hr>
+        {% block body %}
+        {% endblock %}
+
+
+       
+    </body>
+</html>

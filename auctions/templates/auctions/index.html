@@ -1,0 +1,53 @@
+{% extends "auctions/layout.html" %}
+
+{%  if message %}
+    {{message}}
+{% endif %}
+{% block body %} 
+    {% if close %}
+    <h1>Closed Listings</h1>
+    {% else %}
+    <h1>Active Listings</h1>
+    {% endif %}
+    <div class="container">
+        <div class="row row-cols-3">
+    {% for listing in listings %}
+            <div class="card " style="margin: 20px;">
+                <img src="{{ listing.image}}" class="card-img-top" alt="..." ">
+                
+                <div class="card-body">
+                <h5 class="card-title">{{ listing.title}}</h5>
+                <p class="card-text">{{ listing.description}}</p>
+            
+                <div class="card-footer text-muted" style="margin-bottom: 10px;">
+                CurrentPrice : {{ listing.starting_price }}  $ 
+                </div>
+                {% if close %}
+
+                <p>Status:</p>
+                <ul>
+                    <li>{{ listing.status}}</li>
+                </ul>
+                {% else %}
+                {% if user.is_authenticated %}
+                <a href="{% url 'product' listing.id %}" class="btn btn-secondary">View Product</a>
+                {% endif %}
+                {% endif %}
+                {% if listing.winner == winner %}
+                {%  if win_message %}
+                <div class="alert alert-success" role="alert">
+                    {{ win_message }} {{listing.winner}}
+                </div>
+                {% endif %}
+                {% endif %}
+                </div>
+                
+            </div>
+    {% endfor%}
+        </div>
+    </div>
+      
+
+    
+{% endblock %}
+
